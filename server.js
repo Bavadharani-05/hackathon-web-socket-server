@@ -124,6 +124,13 @@ io.on('connection', (socket) => {
         });
     });
 
+     // Handle student count (students send every 5s, relay to teacher/others in room)
+    socket.on('student-send-count', ({ classId, count, peerId }) => {
+        if (classId && peerId != null && typeof count === 'number') {
+            socket.to(classId).emit('student-count-update', { peerId, count });
+        }
+    });
+
     // Handle leave class
     socket.on('leave-class', ({ classId }) => {
         const room = rooms.get(classId);
