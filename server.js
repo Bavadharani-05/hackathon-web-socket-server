@@ -124,10 +124,10 @@ io.on('connection', (socket) => {
         });
     });
 
-     // Handle student count (students send every 5s, relay to teacher/others in room)
-    socket.on('student-send-count', ({ classId, count, peerId }) => {
-        if (classId && peerId != null && typeof count === 'number') {
-            socket.to(classId).emit('student-count-update', { peerId, count });
+     // Handle student webcam snapshot (students send base64 every 5s, relay to teacher/others in room)
+    socket.on('student-send-image', ({ classId, imageBase64, peerId }) => {
+        if (classId && peerId != null && imageBase64) {
+            socket.to(classId).emit('student-image-update', { peerId, imageBase64 });
         }
     });
 
