@@ -124,10 +124,10 @@ io.on('connection', (socket) => {
         });
     });
 
-     // Handle student webcam snapshot (students send base64 every 5s, relay to teacher/others in room)
-    socket.on('student-send-image', ({ classId, imageBase64, peerId }) => {
-        if (classId && peerId != null && imageBase64) {
-            socket.to(classId).emit('student-image-update', { peerId, imageBase64 });
+    // Handle student image analysis (students call API, send response to teacher)
+    socket.on('student-send-analysis', ({ classId, peerId, apiResponse }) => {
+        if (classId && peerId != null && apiResponse != null) {
+            socket.to(classId).emit('student-analysis-update', { peerId, apiResponse });
         }
     });
 
